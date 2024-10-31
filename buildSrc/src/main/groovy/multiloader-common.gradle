@@ -1,30 +1,25 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
+    id "org.jetbrains.kotlin.jvm"
 }
 
 base {
-    archivesName = "${mod_id}-${project.name}-${minecraft_version}"
+    archivesName = "${modId}-${project.name}-${libs.versions.minecraft.get()}"
 }
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(java_version)
+    toolchain.languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
     withSourcesJar()
     withJavadocJar()
 }
 
+kotlin {
+    jvmToolchain(Integer.parseInt(libs.versions.java.get()))
+}
+
 repositories {
     mavenCentral()
-    // https://docs.gradle.org/current/userguide/declaring_repositories.html#declaring_content_exclusively_found_in_one_repository
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = 'Sponge'
-                url = 'https://repo.spongepowered.org/repository/maven-public'
-            }
-        }
-        filter { includeGroupAndSubgroups('org.spongepowered') }
-    }
     exclusiveContent {
         forRepositories(
                 maven {
@@ -42,6 +37,10 @@ repositories {
         name = 'BlameJared'
         url = 'https://maven.blamejared.com'
     }
+    maven {
+        name = "kotlinforforge"
+        url = uri("https://thedarkcolour.github.io/KotlinForForge/")
+    }
 }
 
 // Declare capabilities on the outgoing configurations.
@@ -49,8 +48,8 @@ repositories {
 ['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements'].each { variant ->
     configurations."$variant".outgoing {
         capability("$group:${base.archivesName.get()}:$version")
-        capability("$group:$mod_id-${project.name}-${minecraft_version}:$version")
-        capability("$group:$mod_id:$version")
+        capability("$group:$modId-${project.name}-${libs.versions.minecraft.get()}:$version")
+        capability("$group:$modId:$version")
     }
     publishing.publications.configureEach {
         suppressPomMetadataWarningsFor(variant)
@@ -59,24 +58,24 @@ repositories {
 
 sourcesJar {
     from(rootProject.file('LICENSE')) {
-        rename { "${it}_${mod_name}" }
+        rename { "${it}_${modId}" }
     }
 }
 
 jar {
     from(rootProject.file('LICENSE')) {
-        rename { "${it}_${mod_name}" }
+        rename { "${it}_${modId}" }
     }
 
     manifest {
         attributes([
-                'Specification-Title'   : mod_name,
-                'Specification-Vendor'  : mod_author,
+                'Specification-Title'   : modName,
+                'Specification-Vendor'  : modAuthor,
                 'Specification-Version' : project.jar.archiveVersion,
                 'Implementation-Title'  : project.name,
                 'Implementation-Version': project.jar.archiveVersion,
-                'Implementation-Vendor' : mod_author,
-                'Built-On-Minecraft'    : minecraft_version
+                'Implementation-Vendor' : modAuthor,
+                'Built-On-Minecraft'    : libs.versions.minecraft.get()
         ])
     }
 }
@@ -85,24 +84,25 @@ processResources {
     var expandProps = [
             'version'                      : version,
             'group'                        : project.group, //Else we target the task's group.
-            'minecraft_version'            : minecraft_version,
-            'minecraft_version_range'      : minecraft_version_range,
-            'fabric_version'               : fabric_version,
-            'fabric_loader_version'        : fabric_loader_version,
-            'mod_name'                     : mod_name,
-            'mod_author'                   : mod_author,
-            'mod_id'                       : mod_id,
+            'minecraft_version'            : libs.versions.minecraft.get(),
+            'minecraft_version_range'      : libs.versions.minecraftRange.get(),
+            'fabric_version'               : libs.versions.fabricApi.get(),
+            'fabric_loader_version'        : libs.versions.fabricLoader.get(),
+            'flk_version'                  : libs.versions.flk.get(),
+            'mod_name'                     : modName,
+            'mod_author'                   : modAuthor,
+            'mod_id'                       : modId,
             'license'                      : license,
             'description'                  : project.description,
-            'neoforge_version'             : neoforge_version,
-            'neoforge_loader_version_range': neoforge_loader_version_range,
-            "forge_version": forge_version,
-            "forge_loader_version_range": forge_loader_version_range,
+            'neoforge_version'             : libs.versions.neoforge.get(),
+            'neoforge_loader_version_range': libs.versions.neoforgeRange.get(),
+            'kff_version'                  : libs.versions.kff.get(),
+            'kff_version_range'            : libs.versions.kffRange.get(),
             'credits'                      : credits,
-            'java_version'                 : java_version
+            'java_version'                 : libs.versions.java.get()
     ]
 
-    filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', 'META-INF/neoforge.mods.toml', '*.mixins.json']) {
+    filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/neoforge.mods.toml', '*.mixins.json']) {
         expand expandProps
     }
     inputs.properties(expandProps)
