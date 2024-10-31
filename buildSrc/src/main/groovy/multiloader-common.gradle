@@ -95,7 +95,7 @@ processResources {
             'license'                      : license,
             'description'                  : project.description,
             'neoforge_version'             : libs.versions.neoforge.get(),
-            'neoforge_loader_version_range': libs.versions.neoforgeRange.get(),
+            'neoforge_range'               : libs.versions.neoforgeRange.get(),
             'kff_version'                  : libs.versions.kff.get(),
             'kff_version_range'            : libs.versions.kffRange.get(),
             'credits'                      : credits,
