@@ -1,7 +1,10 @@
+import org.jetbrains.dokka.gradle.DokkaTaskPartial
+
 plugins {
     id 'java-library'
     id 'maven-publish'
     id "org.jetbrains.kotlin.jvm"
+    id "org.jetbrains.dokka"
 }
 
 base {
@@ -77,6 +80,16 @@ jar {
                 'Implementation-Vendor' : modAuthor,
                 'Built-On-Minecraft'    : libs.versions.minecraft.get()
         ])
+    }
+}
+
+tasks.withType(DokkaTaskPartial).configureEach {
+    dokkaSourceSets.configureEach {
+        includeNonPublic = false
+        skipDeprecated = false
+        reportUndocumented = false
+        jdkVersion = Integer.parseInt(libs.versions.java.get())
+        sourceRoots.from(sourceSets.main.allSource)
     }
 }
 

@@ -3,6 +3,7 @@ java = "21"
 kotlin = "2.0.21"
 moddev = "1.0.21"
 loom = "1.8-SNAPSHOT"
+dokka = "1.9.20"
 
 minecraft = "1.21.1"
 minecraftRange = "[1.21.1, 1.21.2)"
@@ -37,5 +38,6 @@ mixinExtras-common = { group = "io.github.llamalad7", name = "mixinextras-common
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 moddev = { id = "net.neoforged.moddev", version.ref = "moddev" }
 loom = { id = "fabric-loom", version.ref = "loom" }
