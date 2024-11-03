@@ -64,15 +64,3 @@ tasks.named("dokkaJavadoc", DokkaTask) {
         sourceRoots.from(configurations.commonJava.singleFile, configurations.commonKotlin.singleFile)
     }
 }
-
-// Prevent the default javadoc task from running, as Dokka is
-// responsible for generating the docs now
-tasks.named("javadoc", Javadoc) {
-    enabled = false
-}
-
-// Make the javadoc jar take in the Dokka output
-tasks.named("javadocJar", Jar) {
-    dependsOn(tasks.named("dokkaJavadoc"))
-    from(tasks.named("dokkaJavadoc"))
-}
