@@ -7,6 +7,17 @@ plugins {
 
 val modId: String by project
 
+mixin {
+    add(sourceSets.main.get(), "${modId}.refmap.json")
+    config("${modId}.mixins.json")
+    config("${modId}.forge.mixins.json")
+}
+tasks.jar {
+    manifest {
+        attributes["MixinConfigs"] = "${modId}.mixins.json,${modId}.forge.mixins.json"
+    }
+}
+
 neoForge {
     version = libs.versions.forge
     // Automatically enable neoforge AccessTransformers if the file exists
@@ -44,4 +55,5 @@ sourceSets.main.get().resources { srcDir("src/generated/resources") }
 
 dependencies {
     modImplementation(libs.kff)
+    annotationProcessor(variantOf(libs.mixin) { classifier("processor") })
 }
