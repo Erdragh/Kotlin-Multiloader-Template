@@ -8,7 +8,7 @@ plugins {
 val modId: String by project
 
 neoForge {
-    version = libs.versions.neoforge
+    version = libs.versions.forge
     // Automatically enable neoforge AccessTransformers if the file exists
     val at = project(":common").file("src/main/resources/META-INF/accesstransformer.cfg")
     if (at.exists()) {
@@ -20,8 +20,8 @@ neoForge {
     }
     runs {
         configureEach {
-            systemProperty("neoforge.enabledGameTestNamespaces", modId)
-            ideName = "NeoForge ${name.capitalized()} (${project.path})" // Unify the run config names with fabric
+            systemProperty("forge.enabledGameTestNamespaces", modId)
+            ideName = "Forge ${name.capitalized()} (${project.path})" // Unify the run config names with fabric
         }
         register("client") {
             client()
@@ -43,5 +43,5 @@ neoForge {
 sourceSets.main.get().resources { srcDir("src/generated/resources") }
 
 dependencies {
-    implementation(libs.kff)
+    modImplementation(libs.kff)
 }

@@ -1,12 +1,12 @@
 package com.example.examplemod.platform
 
 import com.example.examplemod.platform.services.PlatformHelper
-import net.neoforged.fml.ModList
-import net.neoforged.fml.loading.FMLLoader
+import net.minecraftforge.fml.ModList
+import net.minecraftforge.fml.loading.FMLLoader
 
-class NeoForgePlatformHelper : PlatformHelper {
+class ForgePlatformHelper : PlatformHelper {
     override fun getPlatformName(): String {
-        return "NeoForge"
+        return "Forge"
     }
 
     override fun isModLoaded(modId: String?): Boolean {

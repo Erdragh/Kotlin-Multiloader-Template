@@ -30,8 +30,8 @@ repositories {
                     url = 'https://maven.parchmentmc.org/'
                 },
                 maven {
-                    name = "NeoForge"
-                    url = 'https://maven.neoforged.net/releases'
+                    name = "Forge"
+                    url = 'https://maven.minecraftforge.net'
                 }
         )
         filter { includeGroup('org.parchmentmc.data') }
@@ -119,15 +119,15 @@ processResources {
             'mod_id'                       : modId,
             'license'                      : license,
             'description'                  : project.description,
-            'neoforge_version'             : libs.versions.neoforge.get(),
-            'neoforge_range'               : libs.versions.neoforgeRange.get(),
+            'forge_version'                : libs.versions.forge.get(),
+            'forge_range'                  : libs.versions.forgeRange.get(),
             'kff_version'                  : libs.versions.kff.get(),
             'kff_version_range'            : libs.versions.kffRange.get(),
             'credits'                      : credits,
             'java_version'                 : libs.versions.java.get()
     ]
 
-    filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/neoforge.mods.toml', '*.mixins.json']) {
+    filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/*mods.toml', '*.mixins.json']) {
         expand expandProps
     }
     inputs.properties(expandProps)
