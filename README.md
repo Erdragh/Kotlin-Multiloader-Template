@@ -87,3 +87,5 @@ I've taken the following liberties when porting this template to Kotlin:
 2. *Use Gradle's Version Catalog system to manage dependencies and libraries*, this allows
    specifying versions and artifacts of dependencies in one place, which can then be
    used in every subproject and even the `buildSrc` project.
+3. *Use JetBrains' Dokka Gradle plugin* to generate full javadoc jars containing
+   the documentation for both, the Kotlin sources and the Java sources.
