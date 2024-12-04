@@ -6,6 +6,9 @@ This project does not require any third party libraries or dependencies.
 
 This Kotlin version is a fork of [the original Multiloader Template](https://github.com/jaredlll08/MultiLoader-Template).
 
+I also backported this template to 1.20.1 with Forge and Fabric using Neo's MDG Legacy Plugin.
+You can find it on the `1.20.1` branch.
+
 ## Getting Started
 
 ### IntelliJ IDEA
